@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience — Nitin Korlepara</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.timeline-wrap {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 0 3rem 3rem;
+}
+.timeline-wrap::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10px; bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    #fbbf24 0%,
+    var(--primary) 20%,
+    var(--secondary) 45%,
+    var(--accent) 65%,
+    rgba(74,222,128,0.8) 82%,
+    rgba(99,209,209,0.6) 100%
+  );
+  box-shadow: 0 0 8px rgba(0,212,255,0.2);
+}
+
+.timeline-entry {
+  position: relative;
+  margin-bottom: 2.75rem;
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.timeline-entry.visible { opacity: 1; transform: translateX(0); }
+
+.t-dot {
+  position: absolute;
+  left: -3rem; top: 14px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  transform: translateX(-6px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.t-dot.diamond {
+  border-radius: 3px;
+  transform: translateX(-6px) rotate(45deg);
+}
+.timeline-entry:hover .t-dot {
+  transform: translateX(-6px) scale(1.35);
+  box-shadow: 0 0 14px var(--dot-color, var(--primary));
+}
+.timeline-entry:hover .t-dot.diamond {
+  transform: translateX(-6px) rotate(45deg) scale(1.35);
+}
+.t-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 100%;
+  width: 1.75rem; height: 1px;
+  background: linear-gradient(90deg, var(--dot-color, var(--primary)), transparent);
+  transform: translateY(-50%);
+}
+.t-dot.diamond::after { transform: translateY(-50%) rotate(-45deg); }
+
+.t-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.t-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--dot-color, var(--primary));
+  border-radius: 3px 0 0 3px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.timeline-entry:hover .t-card { border-color: rgba(0,212,255,0.22); box-shadow: var(--glow); transform: translateX(4px); }
+.timeline-entry:hover .t-card::before { opacity: 1; }
+
+.t-card-type { font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.45rem; color:var(--dot-color,var(--primary)); opacity:0.85; }
+.t-meta { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.3rem; }
+.t-company { font-size:1.05rem; font-weight:800; color:#fff; letter-spacing:-0.3px; }
+.t-date { font-size:0.75rem; color:var(--primary); background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); padding:0.18rem 0.7rem; border-radius:999px; white-space:nowrap; }
+.t-role { font-size:0.83rem; color:var(--text-dim); margin-bottom:0.9rem; }
+.t-chips { display:flex; flex-wrap:wrap; gap:0.4rem; }
+.chip { background:rgba(123,47,255,0.1); border:1px solid rgba(123,47,255,0.2); border-radius:5px; padding:0.2rem 0.6rem; font-size:0.72rem; color:#a78bfa; }
+.chip-edu { background:rgba(251,191,36,0.08); border:1px solid rgba(251,191,36,0.2); color:#fbbf24; }
+.chip-teal { background:rgba(99,209,209,0.08); border:1px solid rgba(99,209,209,0.2); color:#63d1d1; }
+</style>
+</head>
+<body>
+<div class="nebula nebula-1"></div>
+<div class="nebula nebula-2"></div>
+<div class="nebula nebula-3"></div>
+<canvas id="starCanvas"></canvas>
+
+<nav id="navbar">
+  <div class="nav-logo"><a href="index.html"><img src="logo.png" alt="Kortin"></a></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="experience.html" class="active">Experience</a></li>
+    <li><a href="certifications.html">Certifications</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section>
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-label">Career Journey</div>
+      <h1 class="section-title">Experience &amp; <span>Education</span></h1>
+    </div>
+
+    <div class="timeline-wrap">
+
+      <!-- 1 — Clark University -->
+      <div class="timeline-entry">
+        <div class="t-dot diamond" style="--dot-color:#fbbf24; background:#fbbf24;"></div>
+        <div class="t-card" style="--dot-color:#fbbf24;">
+          <div class="t-card-type">🎓 Graduate Education</div>
+          <div class="t-meta">
+            <div class="t-company">Clark University</div>
+            <div class="t-date">Jan 2024 – Dec 2025</div>
+          </div>
+          <div class="t-role">M.S. Information Technology (STEM) · Worcester, MA</div>
+          <div class="t-chips">
+            <span class="chip chip-edu">Alpha Epsilon Lambda 🏅</span>
+            <span class="chip chip-edu">System Design</span>
+            <span class="chip chip-edu">Generative AI</span>
+            <span class="chip chip-edu">Cloud Computing</span>
+            <span class="chip chip-edu">DBMS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 — ADP -->
+      <div class="timeline-entry">
+        <div class="t-dot" style="--dot-color:#00d4ff; background:#00d4ff;"></div>
+        <div class="t-card" style="--dot-color:#00d4ff;">
+          <div class="t-meta">
+            <div class="t-company">ADP</div>
+            <div class="t-date">Aug 2022 – Dec 2023</div>
+          </div>
+          <div class="t-role">Senior Software Engineer – Full Stack · India</div>
+          <div class="t-chips">
+            <span class="chip">Java</span><span class="chip">AWS Lambda</span><span class="chip">Redis</span>
+            <span class="chip">SQS</span><span class="chip">EventBridge</span><span class="chip">Angular</span>
+            <span class="chip">DDD</span><span class="chip">AWS Textract</span><span class="chip">CloudWatch</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 — Verizon -->
+      <div class="timeline-entry">
+        <div class="t-dot" style="--dot-color:#7b2fff; background:#7b2fff;"></div>
+        <div class="t-card" style="--dot-color:#7b2fff;">
+          <div class="t-meta">
+            <div class="t-company">Verizon</div>
+            <div class="t-date">May 2021 – Jul 2022</div>
+          </div>
+          <div class="t-role">Software Engineer – Full Stack · India</div>
+          <div class="t-chips">
+            <span class="chip">Spring WebFlux</span><span class="chip">Reactive Java</span><span class="chip">Angular</span>
+            <span class="chip">Spring Boot</span><span class="chip">CI/CD</span><span class="chip">PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 — Poyo -->
+      <div class="timeline-entry">
+        <div class="t-dot" style="--dot-color:#ff6b35; background:#ff6b35;"></div>
+        <div class="t-card" style="--dot-color:#ff6b35;">
+          <div class="t-meta">
+            <div class="t-company">Poyo India Services</div>
+            <div class="t-date">Sep 2020 – Apr 2021</div>
+          </div>
+          <div class="t-role">Software Engineer – Java · India</div>
+          <div class="t-chips">
+            <span class="chip">Java 8/11</span><span class="chip">Spring Boot</span><span class="chip">React</span>
+            <span class="chip">GraphQL</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 — Cognizant -->
+      <div class="timeline-entry">
+        <div class="t-dot" style="--dot-color:#4ade80; background:#4ade80;"></div>
+        <div class="t-card" style="--dot-color:#4ade80;">
+          <div class="t-meta">
+            <div class="t-company">Cognizant Technologies</div>
+            <div class="t-date">Nov 2017 – Sep 2020</div>
+          </div>
+          <div class="t-role">Software Engineer · India</div>
+          <div class="t-chips">
+            <span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Spring Batch</span>
+            <span class="chip">JUnit</span><span class="chip">Mockito</span><span class="chip">Agile</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 — JNTU -->
+      <div class="timeline-entry">
+        <div class="t-dot diamond" style="--dot-color:#63d1d1; background:#63d1d1;"></div>
+        <div class="t-card" style="--dot-color:#63d1d1;">
+          <div class="t-card-type">🏛️ Undergraduate Education</div>
+          <div class="t-meta">
+            <div class="t-company">JNTU Hyderabad</div>
+            <div class="t-date">2013 – 2017</div>
+          </div>
+          <div class="t-role">B.Tech Computer Science &amp; Engineering · India</div>
+          <div class="t-chips">
+            <span class="chip chip-teal">Data Structures</span>
+            <span class="chip chip-teal">Algorithms</span>
+            <span class="chip chip-teal">OOP</span>
+            <span class="chip chip-teal">Operating Systems</span>
+            <span class="chip chip-teal">Networking</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built with 🚀 by <span>Nitin Korlepara</span> · <a href="index.html" style="color:var(--primary);text-decoration:none;">← Back to Home</a></p>
+</footer>
+<script src="starfield.js"></script>
+<script>window.addEventListener('scroll',()=>{ document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50); });</script>
+</body>
+</html>
