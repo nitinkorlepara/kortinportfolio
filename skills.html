@@ -6,24 +6,67 @@
 <title>Skills — Nitin Korlepara</title>
 <link rel="stylesheet" href="styles.css">
 <style>
-.skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; }
-.skill-category { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:1.75rem; transition:all 0.3s; position:relative; overflow:hidden; }
-.skill-category::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--primary),var(--secondary)); opacity:0; transition:opacity 0.3s; }
-.skill-category:hover { transform:translateY(-4px); box-shadow:var(--glow); border-color:rgba(0,212,255,0.3); }
-.skill-category:hover::before { opacity:1; }
-.skill-cat-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem; }
-.skill-cat-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; background:rgba(0,212,255,0.1); }
-.skill-cat-name { font-weight:700; font-size:0.95rem; color:#fff; }
-.skill-tags { display:flex; flex-wrap:wrap; gap:0.5rem; }
-.skill-tag { background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.15); border-radius:6px; padding:0.3rem 0.7rem; font-size:0.78rem; color:var(--text-dim); transition:all 0.2s; cursor:default; }
-.skill-tag:hover { background:rgba(0,212,255,0.15); color:var(--primary); border-color:rgba(0,212,255,0.4); transform:translateY(-1px); }
-.skill-bars { margin-top:3rem; max-width:700px; margin-left:auto; margin-right:auto; }
-.skill-bar-item { margin-bottom:1.2rem; }
-.skill-bar-header { display:flex; justify-content:space-between; margin-bottom:0.4rem; }
-.skill-bar-name { font-size:0.85rem; color:var(--text); }
-.skill-bar-pct { font-size:0.8rem; color:var(--primary); }
-.skill-bar-track { height:5px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden; }
-.skill-bar-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--primary),var(--secondary)); width:0; transition:width 1.2s cubic-bezier(0.4,0,0.2,1); box-shadow:0 0 8px var(--primary); }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.25rem;
+}
+.skill-category {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.skill-category::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--cat-color, linear-gradient(90deg, var(--primary), var(--secondary)));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.skill-category:hover { transform: translateY(-4px); box-shadow: var(--glow); border-color: rgba(0,212,255,0.28); }
+.skill-category:hover::before { opacity: 1; }
+
+.skill-cat-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.1rem; }
+.skill-cat-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.skill-cat-name { font-weight: 700; font-size: 0.9rem; color: #fff; }
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.skill-tag {
+  border-radius: 6px;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.76rem;
+  transition: all 0.2s; cursor: default;
+}
+
+/* Per-category tag colors */
+.cat-lang    .skill-tag { background:rgba(0,212,255,0.07);   border:1px solid rgba(0,212,255,0.18);   color:#7dd3fc; }
+.cat-fw      .skill-tag { background:rgba(123,47,255,0.09);  border:1px solid rgba(123,47,255,0.22);  color:#a78bfa; }
+.cat-db      .skill-tag { background:rgba(74,222,128,0.07);  border:1px solid rgba(74,222,128,0.18);  color:#6ee7b7; }
+.cat-cloud   .skill-tag { background:rgba(251,191,36,0.07);  border:1px solid rgba(251,191,36,0.18);  color:#fcd34d; }
+.cat-devops  .skill-tag { background:rgba(255,107,53,0.07);  border:1px solid rgba(255,107,53,0.18);  color:#fb923c; }
+.cat-ai      .skill-tag { background:rgba(236,72,153,0.08);  border:1px solid rgba(236,72,153,0.2);   color:#f9a8d4; }
+.cat-prac    .skill-tag { background:rgba(99,209,209,0.07);  border:1px solid rgba(99,209,209,0.18);  color:#67e8f9; }
+
+.skill-tag:hover { filter: brightness(1.25); transform: translateY(-1px); }
+
+/* Icon bg per category */
+.cat-lang   .skill-cat-icon { background:rgba(0,212,255,0.1);   }
+.cat-fw     .skill-cat-icon { background:rgba(123,47,255,0.12); }
+.cat-db     .skill-cat-icon { background:rgba(74,222,128,0.1);  }
+.cat-cloud  .skill-cat-icon { background:rgba(251,191,36,0.1);  }
+.cat-devops .skill-cat-icon { background:rgba(255,107,53,0.1);  }
+.cat-ai     .skill-cat-icon { background:rgba(236,72,153,0.1);  }
+.cat-prac   .skill-cat-icon { background:rgba(99,209,209,0.1);  }
 </style>
 </head>
 <body>
@@ -52,75 +95,128 @@
     </div>
 
     <div class="skills-grid">
-      <div class="skill-category reveal">
-        <div class="skill-cat-header"><div class="skill-cat-icon">☕</div><div class="skill-cat-name">Languages</div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Java 8–21</span><span class="skill-tag">Reactive Streams</span>
-          <span class="skill-tag">JavaScript</span><span class="skill-tag">Python</span>
-        </div>
-      </div>
-      <div class="skill-category reveal" style="transition-delay:0.05s">
-        <div class="skill-cat-header"><div class="skill-cat-icon">⚙️</div><div class="skill-cat-name">Frameworks</div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Spring Boot</span><span class="skill-tag">Spring WebFlux</span>
-          <span class="skill-tag">Node.js</span><span class="skill-tag">Angular</span><span class="skill-tag">React</span>
-        </div>
-      </div>
-      <div class="skill-category reveal" style="transition-delay:0.1s">
-        <div class="skill-cat-header"><div class="skill-cat-icon">🗄️</div><div class="skill-cat-name">Databases</div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">PostgreSQL</span><span class="skill-tag">MongoDB</span>
-          <span class="skill-tag">Cassandra</span><span class="skill-tag">Redis</span><span class="skill-tag">DynamoDB</span>
-        </div>
-      </div>
-      <div class="skill-category reveal" style="transition-delay:0.15s">
-        <div class="skill-cat-header"><div class="skill-cat-icon">☁️</div><div class="skill-cat-name">Cloud &amp; Platforms</div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">AWS EC2</span><span class="skill-tag">AWS Lambda</span>
-          <span class="skill-tag">EventBridge</span><span class="skill-tag">SQS</span>
-          <span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span>
-          <span class="skill-tag">Kafka</span><span class="skill-tag">GraphQL</span>
-        </div>
-      </div>
-      <div class="skill-category reveal" style="transition-delay:0.2s">
-        <div class="skill-cat-header"><div class="skill-cat-icon">🔧</div><div class="skill-cat-name">Tools &amp; Practices</div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">JUnit</span><span class="skill-tag">Mockito</span><span class="skill-tag">TDD</span>
-          <span class="skill-tag">CI/CD</span><span class="skill-tag">ELK Stack</span>
-          <span class="skill-tag">Swagger/OpenAPI</span><span class="skill-tag">Git</span>
-          <span class="skill-tag">Maven</span><span class="skill-tag">JPA/Hibernate</span>
-          <span class="skill-tag">RESTful APIs</span><span class="skill-tag">DDD</span><span class="skill-tag">Event-Driven</span>
-        </div>
-      </div>
-      <div class="skill-category reveal" style="transition-delay:0.25s">
-        <div class="skill-cat-header"><div class="skill-cat-icon">🤖</div><div class="skill-cat-name">AI Tools</div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">GitHub Copilot</span><span class="skill-tag">Claude Code</span>
-        </div>
-      </div>
-    </div>
 
-    <div class="skill-bars reveal" style="margin-top:3rem;">
-      <div class="skill-bar-item">
-        <div class="skill-bar-header"><span class="skill-bar-name">Java / Spring Ecosystem</span><span class="skill-bar-pct">95%</span></div>
-        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+      <!-- Languages -->
+      <div class="skill-category cat-lang reveal">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">☕</div>
+          <div class="skill-cat-name">Languages</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Java 8 – 21</span>
+          <span class="skill-tag">Reactive Streams</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+        </div>
       </div>
-      <div class="skill-bar-item">
-        <div class="skill-bar-header"><span class="skill-bar-name">AWS Cloud (Lambda, EC2, EventBridge)</span><span class="skill-bar-pct">88%</span></div>
-        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+
+      <!-- Frameworks -->
+      <div class="skill-category cat-fw reveal" style="transition-delay:0.05s">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">⚙️</div>
+          <div class="skill-cat-name">Frameworks</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Spring Boot</span>
+          <span class="skill-tag">Spring WebFlux</span>
+          <span class="skill-tag">Spring Batch</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">GraphQL</span>
+        </div>
       </div>
-      <div class="skill-bar-item">
-        <div class="skill-bar-header"><span class="skill-bar-name">Microservices &amp; Event-Driven Architecture</span><span class="skill-bar-pct">90%</span></div>
-        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+
+      <!-- Databases -->
+      <div class="skill-category cat-db reveal" style="transition-delay:0.1s">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">🗄️</div>
+          <div class="skill-cat-name">Databases</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Cassandra</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">DynamoDB</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">JPA / Hibernate</span>
+        </div>
       </div>
-      <div class="skill-bar-item">
-        <div class="skill-bar-header"><span class="skill-bar-name">Angular / Frontend</span><span class="skill-bar-pct">78%</span></div>
-        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div>
+
+      <!-- Cloud -->
+      <div class="skill-category cat-cloud reveal" style="transition-delay:0.15s">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">☁️</div>
+          <div class="skill-cat-name">Cloud</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS Lambda</span>
+          <span class="skill-tag">AWS EC2</span>
+          <span class="skill-tag">EventBridge</span>
+          <span class="skill-tag">SQS</span>
+          <span class="skill-tag">S3</span>
+          <span class="skill-tag">CloudWatch</span>
+          <span class="skill-tag">AWS Textract</span>
+          <span class="skill-tag">IAM</span>
+        </div>
       </div>
-      <div class="skill-bar-item">
-        <div class="skill-bar-header"><span class="skill-bar-name">Database Design &amp; Optimization</span><span class="skill-bar-pct">85%</span></div>
-        <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+
+      <!-- DevOps Tools -->
+      <div class="skill-category cat-devops reveal" style="transition-delay:0.2s">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">🛠️</div>
+          <div class="skill-cat-name">DevOps Tools</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Kafka</span>
+          <span class="skill-tag">Jenkins</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Maven</span>
+          <span class="skill-tag">CI / CD</span>
+          <span class="skill-tag">ELK Stack</span>
+          <span class="skill-tag">Swagger / OpenAPI</span>
+        </div>
       </div>
+
+      <!-- AI Tools -->
+      <div class="skill-category cat-ai reveal" style="transition-delay:0.25s">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">🤖</div>
+          <div class="skill-cat-name">AI Tools</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">GitHub Copilot</span>
+          <span class="skill-tag">Claude Code</span>
+          <span class="skill-tag">AWS Textract</span>
+          <span class="skill-tag">Generative AI</span>
+        </div>
+      </div>
+
+      <!-- Software Practices -->
+      <div class="skill-category cat-prac reveal" style="transition-delay:0.3s" style="grid-column: span 1;">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">📐</div>
+          <div class="skill-cat-name">Software Practices</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Microservices</span>
+          <span class="skill-tag">Event-Driven Architecture</span>
+          <span class="skill-tag">Domain-Driven Design</span>
+          <span class="skill-tag">CQRS</span>
+          <span class="skill-tag">TDD</span>
+          <span class="skill-tag">RESTful APIs</span>
+          <span class="skill-tag">Agile / Scrum</span>
+          <span class="skill-tag">JUnit</span>
+          <span class="skill-tag">Mockito</span>
+          <span class="skill-tag">System Design</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
