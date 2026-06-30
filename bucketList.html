@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Bucket List</title>
+<style>
+  :root {
+    --bg: #0e1726;
+    --ink: #e8edf5;
+    --muted: #8a99b3;
+    --sea: #16243b;
+    --border: #2a3a55;
+    --land: #2f3f5c;
+    --bucket: #f4b942;
+    --visited: #3ec6a0;
+    --lived: #e9546b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  header { padding: 22px 24px 8px; }
+  h1 { margin: 0; font-size: 1.5rem; font-weight: 650; letter-spacing: -0.01em; }
+  .sub { margin: 4px 0 0; color: var(--muted); font-size: 0.9rem; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 24px 6px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 12px 6px 8px;
+    font-size: 0.82rem; color: var(--ink);
+  }
+  .chip b { font-weight: 600; }
+  .chip .count { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .dot { width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto; }
+  .dot.bucket { background: var(--bucket); }
+  .dot.visited { background: var(--visited); }
+  .dot.lived { background: var(--lived); }
+  .dot.land { background: var(--land); }
+
+  .toolbar { padding: 6px 24px 0; }
+  button.reset {
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 12px; font-size: 0.8rem; cursor: pointer;
+  }
+  button.reset:hover { color: var(--ink); border-color: var(--muted); }
+
+  .map-wrap { padding: 8px 12px 24px; }
+  svg { width: 100%; height: auto; display: block; }
+  .sea-rect { fill: var(--sea); }
+  path.country {
+    fill: var(--land);
+    stroke: var(--bg);
+    stroke-width: 0.4;
+    cursor: pointer;
+    transition: fill 0.15s ease;
+  }
+  path.country:hover { stroke: var(--ink); stroke-width: 0.7; }
+  path.country.bucket  { fill: var(--bucket); }
+  path.country.visited { fill: var(--visited); }
+  path.country.lived   { fill: var(--lived); }
+
+  .tooltip {
+    position: fixed; pointer-events: none; z-index: 10;
+    background: #fff; color: #111; font-size: 0.8rem;
+    padding: 5px 9px; border-radius: 6px; opacity: 0;
+    transition: opacity 0.1s; white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+  .hint { padding: 0 24px 18px; color: var(--muted); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>World Bucket List</h1>
+    <p class="sub">Tap a country to cycle through bucket list, visited, and lived.</p>
+  </header>
+
+  <div class="legend" id="legend">
+    <span class="chip"><span class="dot land"></span><b>Unmarked</b></span>
+    <span class="chip"><span class="dot bucket"></span><b>Bucket list</b> <span class="count" data-count="bucket">0</span></span>
+    <span class="chip"><span class="dot visited"></span><b>Visited</b> <span class="count" data-count="visited">0</span></span>
+    <span class="chip"><span class="dot lived"></span><b>Lived</b> <span class="count" data-count="lived">0</span></span>
+  </div>
+
+  <div class="toolbar">
+    <button class="reset" id="reset">Reset map</button>
+  </div>
+
+  <div class="map-wrap"><div id="map"></div></div>
+  <p class="hint">Progress is saved in your browser automatically.</p>
+  <div class="tooltip" id="tooltip"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<script>
+const STORAGE_KEY = "world-bucket-list";
+const STATES = ["", "bucket", "visited", "lived"]; // cycle order; "" = unmarked
+
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (e) { saved = {}; }
+
+function persist() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); } catch (e) {}
+}
+
+function updateCounts() {
+  const counts = { bucket: 0, visited: 0, lived: 0 };
+  Object.values(saved).forEach(v => { if (counts[v] != null) counts[v]++; });
+  document.querySelectorAll("[data-count]").forEach(el => {
+    el.textContent = counts[el.dataset.count] || 0;
+  });
+}
+
+const width = 980, height = 500;
+const svg = d3.select("#map").append("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("preserveAspectRatio", "xMidYMid meet");
+
+svg.append("rect")
+  .attr("class", "sea-rect")
+  .attr("width", width).attr("height", height);
+
+const projection = d3.geoNaturalEarth1();
+const pathGen = d3.geoPath(projection);
+const tooltip = document.getElementById("tooltip");
+
+d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+  .then(world => {
+    const countries = topojson.feature(world, world.objects.countries);
+    projection.fitSize([width, height], countries);
+
+    svg.append("g").selectAll("path")
+      .data(countries.features)
+      .join("path")
+        .attr("class", d => {
+          const s = saved[d.id];
+          return "country" + (s ? " " + s : "");
+        })
+        .attr("d", pathGen)
+        .on("click", function (event, d) {
+          const cur = saved[d.id] || "";
+          const next = STATES[(STATES.indexOf(cur) + 1) % STATES.length];
+          if (next) saved[d.id] = next; else delete saved[d.id];
+          this.setAttribute("class", "country" + (next ? " " + next : ""));
+          persist();
+          updateCounts();
+        })
+        .on("mousemove", function (event, d) {
+          const s = saved[d.id];
+          const label = s ? `${d.properties.name} — ${s}` : d.properties.name;
+          tooltip.textContent = label;
+          tooltip.style.left = (event.clientX + 12) + "px";
+          tooltip.style.top = (event.clientY + 12) + "px";
+          tooltip.style.opacity = 1;
+        })
+        .on("mouseleave", () => { tooltip.style.opacity = 0; });
+
+    updateCounts();
+  });
+
+document.getElementById("reset").addEventListener("click", () => {
+  if (!confirm("Clear all markings?")) return;
+  saved = {};
+  persist();
+  document.querySelectorAll("path.country").forEach(p => p.setAttribute("class", "country"));
+  updateCounts();
+});
+</script>
+</body>
+</html>
